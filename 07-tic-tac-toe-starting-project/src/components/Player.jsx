@@ -7,11 +7,14 @@ export default function Player({ name, symbol }) {
   function handleEditClick() {
     setIsEditing(editing => !editing);
   }
+  function handleNameChange(e) {
+    setNewName(e.target.value);
+  }
   let playerName = <span className="player-name">{newName}</span>;
 
   if (isEditing) {
     playerName = (
-      <input type="text" placeholder={newName} onChange={(e) => setNewName(e.target.value)} className="player-name-input" />
+      <input type="text" placeholder={newName} onChange={handleNameChange} className="player-name-input" />
     );
   }
 
