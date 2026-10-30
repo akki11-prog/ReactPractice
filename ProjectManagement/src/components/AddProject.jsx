@@ -13,7 +13,8 @@ export default function AddProject({ ref, onClose, updateList }) {
   const inputValues = useRef({
     title :'',
     description: '',
-    date:''
+    date:'',
+    tasks : []
   });
 
   // Generic handler for all inputs
@@ -29,6 +30,7 @@ export default function AddProject({ ref, onClose, updateList }) {
     console.log('Creating project with values:', inputValues);
     updateList(inputValues);
     ref.current.close();
+    
     // Add submission logic or pass inputValues back to parent
   }
 

@@ -5,14 +5,11 @@ import ProjectHome from "./components/ProjectHome";
 import { useState, useRef } from "react";
 function App() {
   const dialogRef = useRef(null);
-  const [projects, setProjects] = useState([
-    {title : '',
-      description : '',
-      date : ''
-    }
-  ]);
+  const [projectInfo, setProjectInfo] = useState();
+  const [projects, setProjects] = useState([]);
+  const [displayProject, setDisplayProject] = useState(false);
 
-    function handleAddProjectClick() {
+  function handleAddProjectClick() {
     if (dialogRef.current) {
       dialogRef.current.showModal();
     }
@@ -23,31 +20,44 @@ function App() {
     }
   }
 
-  function updateArray(item){
+  function updateArray(item) {
     const newProjects = {
       ...item.current,
-      id: Math.random().toString()
+      id: Math.random().toString(),
     };
-    setProjects(prevProjects => [...prevProjects, newProjects]);
-    console.log("NEw project List :", projects)
+    setProjects((prevProjects) => [...prevProjects, newProjects]);
+  }
+
+  function displayProjectDetails(projectId) {
+    const selectedProject = projects.find(
+      (project) => project.id === projectId,
+    );
+    setProjectInfo(selectedProject);
   }
   return (
     <>
-    {console.log("Refreshinggggg")}
+      <AddProject
+        ref={dialogRef}
+        onClose={handleCloseDialog}
+        updateList={updateArray}
+      />
+
+      {console.log("Refreshinggggg")}
       <div className="container">
         <section className="sidebar">
-          <SideBar handleAddProjectClick={handleAddProjectClick} />
+          <SideBar
+            handleAddProjectClick={handleAddProjectClick}
+            projects={projects}
+            openProject={displayProjectDetails}
+          />
         </section>
 
         <section className="main-content">
-          <ProjectHome handleAddProjectClick={handleAddProjectClick} />
-          <AddProject ref={dialogRef} onClose={handleCloseDialog} updateList = {updateArray} />
-          <ProjectDetails />
-          <div key={projects[0].id}>
-                <h3>{projects[0].title}</h3>
-                <p>{projects[0].description}</p>
-                <small>{projects[0].date}</small>
-              </div>
+          {projectInfo ? (
+            <ProjectDetails projectInfo={projectInfo} updateArray={updateArray} />
+          ) : (
+            <ProjectHome handleAddProjectClick={handleAddProjectClick} />
+          )}
         </section>
       </div>
     </>
