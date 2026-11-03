@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react'
-import heroImg from './assets/hero.png'
+import { useState, useContext, useEffect } from 'react'
+
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
@@ -8,6 +8,16 @@ import { CounterContext } from './Context/ContextAPI.jsx'
 function App() {
   const {count, setCount} = useContext(CounterContext);
   const { timesCounted, setTimesCounted } = useContext(CounterContext);
+  
+  
+    useEffect(() => {
+        console.log("Mounting :", count);
+        
+
+        return () => {
+            console.log("Unmounting :", count);
+        }
+    }, [count]);
 
   return (
     <>

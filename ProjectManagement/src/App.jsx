@@ -14,6 +14,7 @@ function App() {
       dialogRef.current.showModal();
     }
   }
+
   function handleCloseDialog() {
     if (dialogRef.current) {
       dialogRef.current.close();
